@@ -4,10 +4,10 @@
   --bg: #070706;
   --bg-2: #10100e;
   --ink: #f4f0e6;
-  --muted: #8f8a7e;
-  --faint: #5c5850;
-  --line: rgba(244, 240, 230, 0.12);
-  --line-strong: rgba(244, 240, 230, 0.22);
+  --muted: #aaa497;
+  --faint: #868174;
+  --line: rgba(244, 240, 230, 0.18);
+  --line-strong: rgba(244, 240, 230, 0.32);
   --accent: #d6ff4a;
   --accent-dim: rgba(214, 255, 74, 0.12);
   --brass: #c4a574;
@@ -90,7 +90,7 @@ body {
 
 .eyebrow {
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--brass);

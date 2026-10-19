@@ -57,7 +57,7 @@ export async function renderOg({
           >
             {title}
           </div>
-          <div style={{ fontSize: 30, lineHeight: 1.35, color: "#8f8a7e", maxWidth: 940 }}>
+          <div style={{ fontSize: 30, lineHeight: 1.35, color: "#aaa497", maxWidth: 940 }}>
             {subtitle}
           </div>
         </div>
