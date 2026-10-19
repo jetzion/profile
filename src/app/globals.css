@@ -11,7 +11,28 @@
   --accent: #d6ff4a;
   --accent-dim: rgba(214, 255, 74, 0.12);
   --brass: #c4a574;
+  --input-bg: #18170f;
+  --scrollbar: #2a2a26;
+  color-scheme: dark;
 }
+
+[data-theme="light"] {
+  --bg: #f6f3ea;
+  --bg-2: #ece8dc;
+  --ink: #16150f;
+  --muted: #5f5a4f;
+  --faint: #8a8578;
+  --line: rgba(22, 21, 15, 0.12);
+  --line-strong: rgba(22, 21, 15, 0.24);
+  --accent: #4a6600;
+  --accent-dim: rgba(74, 102, 0, 0.12);
+  --brass: #8a6a35;
+  --input-bg: #fffdf6;
+  --scrollbar: #cfc9b8;
+  color-scheme: light;
+}
+
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
 
 @theme inline {
   --color-bg: var(--bg);
@@ -41,7 +62,7 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: #111;
+  color: var(--bg);
 }
 
 .grain {
@@ -113,7 +134,7 @@ body {
   background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a2a26;
+  background: var(--scrollbar);
   border: 2px solid var(--bg);
 }
 

@@ -71,6 +71,7 @@ export async function POST(request: Request) {
     body: JSON.stringify({
       model: TWIN_MODEL,
       temperature: 0.4,
+      max_tokens: 1024,
       stream: true,
       reasoning: { effort: "low", exclude: true },
       messages: [

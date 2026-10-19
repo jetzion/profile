@@ -56,6 +56,7 @@ export const about = {
     "Python",
     "n8n",
     "JavaScript",
+    "Agentic development"
   ],
   languages: [
     { name: "English", level: "Native" },

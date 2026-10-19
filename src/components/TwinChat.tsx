@@ -174,7 +174,7 @@ export function TwinChat() {
         <label htmlFor="twin-input" className="eyebrow mb-3 block">
           Type your question
         </label>
-        <div className="flex flex-col gap-3 border border-brass/50 bg-[#18170f] px-3 py-3 shadow-[inset_3px_0_0_0_var(--brass)] transition-colors focus-within:border-accent focus-within:shadow-[inset_3px_0_0_0_var(--accent)] md:flex-row md:items-end">
+        <div className="flex flex-col gap-3 border border-brass/50 bg-(--input-bg) px-3 py-3 shadow-[inset_3px_0_0_0_var(--brass)] transition-colors focus-within:border-accent focus-within:shadow-[inset_3px_0_0_0_var(--accent)] md:flex-row md:items-end">
           <textarea
             id="twin-input"
             value={input}

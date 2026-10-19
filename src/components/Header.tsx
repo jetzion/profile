@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { nav, site } from "@/content/site";
 
 export function Header() {
@@ -45,6 +46,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center justify-end gap-3">
+          <ThemeToggle />
           <Link
             href={site.resumeHref}
             className={`hidden border px-3 py-1.5 text-[11px] tracking-[0.16em] uppercase transition-colors sm:inline ${

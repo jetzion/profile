@@ -61,4 +61,4 @@ PROJECTS
 ${work}`;
 }
 
-export const TWIN_MODEL = "openai/gpt-oss-120b";
+export const TWIN_MODEL = "nvidia/nemotron-3-super-120b-a12b:free";

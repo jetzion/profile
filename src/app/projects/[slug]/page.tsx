@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { projects } from "@/content/site";
 
 type Props = {
@@ -17,7 +18,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: project?.title ?? "Project" };
 }
 
-export default async function ProjectPage({ params }: Props) {
+export default function ProjectPage({ params }: Props) {
+  return (
+    <Suspense
+      fallback={
+        <p className="eyebrow mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
+          Loading project…
+        </p>
+      }
+    >
+      <ProjectDetail params={params} />
+    </Suspense>
+  );
+}
+
+async function ProjectDetail({ params }: Props) {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
   if (!project) notFound();

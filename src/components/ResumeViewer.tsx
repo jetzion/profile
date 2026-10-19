@@ -14,7 +14,7 @@ export function ResumeViewer() {
 
     async function render() {
       try {
-        const pdfjs = await import("pdfjs-dist/build/pdf.mjs");
+        const pdfjs = await import("pdfjs-dist");
         pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 
         const bytes = new Uint8Array(
@@ -47,6 +47,7 @@ export function ResumeViewer() {
         }
         setStatus("ready");
       } catch (error) {
+        console.error("Resume render failed", error);
         setStatus("error");
       }
     }
