@@ -58,7 +58,7 @@ src/
   components/            Header, Footer, ThemeToggle, SectionHeading, Markdown,
                          ResumeViewer (client, pdf.js), TwinChat, HeroAsk, FitCheck
 public/
-  Jack-Etzion-Resume.pdf Served inline (header set in next.config.ts)
+  Jack-Etzion-v25p.pdf   Served inline (header set in next.config.ts)
   pdf.worker.min.mjs     Vendored pdf.js worker (ignored by ESLint)
 ```
 

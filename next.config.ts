@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/Jack-Etzion-Resume.pdf",
+        source: "/Jack-Etzion-v25p.pdf",
         headers: [
           {
             key: "Content-Disposition",

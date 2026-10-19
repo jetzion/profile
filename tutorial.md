@@ -131,7 +131,7 @@ Site/
 ├── package.json                  # scripts and libraries
 ├── next.config.ts                # Next.js settings (PDF headers, Tailwind)
 ├── public/                       # files at the site root URL
-│   ├── Jack-Etzion-Resume.pdf
+│   ├── Jack-Etzion-v25p.pdf
 │   └── pdf.worker.min.mjs
 └── src/
     ├── app/                      # routes
@@ -281,7 +281,7 @@ export default async function ProjectPage({ params }: Props) {
 
 ### 3.5 Résumé viewer (frontend, no server secret)
 
-Browsers often refuse to display a PDF in-tab. `ResumeViewer` fetches `/Jack-Etzion-Resume.pdf`, parses it with PDF.js, and paints each page onto a canvas.
+Browsers often refuse to display a PDF in-tab. `ResumeViewer` fetches `/Jack-Etzion-v25p.pdf`, parses it with PDF.js, and paints each page onto a canvas.
 
 ```tsx
 const pdfjs = await import("pdfjs-dist/build/pdf.mjs");

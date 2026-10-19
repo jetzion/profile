@@ -6,7 +6,7 @@ export const site = {
   email: "jack@etzion.us",
   linkedin: "https://www.linkedin.com/in/jacketzion",
   resumeHref: "/resume",
-  resumeFile: "/Jack-Etzion-Resume.pdf",
+  resumeFile: "/Jack-Etzion-v25p.pdf",
   title: "Product Leader",
   kicker: "AI / ML · Healthcare · SaaS · Digital Transformation",
   headline:
