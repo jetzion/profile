@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { HeroAsk } from "@/components/HeroAsk";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -15,10 +16,23 @@ export default function Home() {
             <span className="h-2 w-2 bg-accent" />
             <p className="eyebrow">{site.kicker}</p>
           </div>
-          <h1 className="font-display mt-8 text-[clamp(3.4rem,11vw,7.6rem)] font-semibold leading-[0.84] tracking-[-0.06em]">
-            <span className="block">Jack</span>
-            <span className="block">Etzion</span>
-          </h1>
+          <div className="mt-8 flex items-center gap-5 md:gap-10">
+            <div className="w-24 shrink-0 overflow-hidden border border-b-[3px] border-line border-b-brass bg-bg-2 pt-3 md:w-40 lg:w-48 lg:pt-5">
+              <Image
+                src="/Jack.png"
+                alt={`Portrait of ${site.name}`}
+                width={746}
+                height={983}
+                sizes="(min-width: 1024px) 192px, (min-width: 768px) 160px, 96px"
+                fetchPriority="high"
+                className="w-full"
+              />
+            </div>
+            <h1 className="font-display text-[clamp(3.4rem,11vw,7.6rem)] font-semibold leading-[0.84] tracking-[-0.06em]">
+              <span className="block">Jack</span>
+              <span className="block">Etzion</span>
+            </h1>
+          </div>
           <div className="mt-10 grid gap-8 border-t border-line pt-8 lg:grid-cols-12">
             <p className="font-display text-2xl font-medium text-brass lg:col-span-4 lg:text-3xl">
               {site.title}
