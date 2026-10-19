@@ -10,8 +10,9 @@ Twin" chat that answers questions about his career in the first person.
 - Next.js 16.4 (App Router, Turbopack, `cacheComponents`, `partialPrefetching`)
 - React 19.3, TypeScript (strict), path alias `@/*` -> `src/*`
 - Tailwind CSS v4 via `@tailwindcss/turbopack` (no `tailwind.config`; theme lives in `globals.css`)
-- `pdfjs-dist` for the in-page resume viewer
-- OpenRouter chat completions API for the Digital Twin
+- `pdfjs-dist` for the in-page resume viewer, `react-markdown` for Twin replies
+- OpenRouter chat completions API for the Digital Twin and role-fit check
+- `next/og` `ImageResponse` for share cards and icons
 - npm (`package-lock.json`); ESLint 9 flat config with `eslint-config-next`
 
 Next.js 16 differs from older versions. Check `node_modules/next/dist/docs/`
@@ -28,13 +29,18 @@ npx tsc --noEmit
 
 `.env` (gitignored) must define `OPENROUTER_API_KEY` for the Twin.
 
+`next dev` sometimes keeps serving stale modules or CSS after edits. If a change
+does not show up, restart the dev server. For final verification use
+`npm run build && npx next start -p 3001`.
+
 ## Layout
 
 ```
 src/
   content/site.ts        Single source of truth for all copy and data:
-                         site, about, stats, journey, education, projects,
-                         portfolioSlots, nav
+                         site (incl. site.url for OG/sitemap), about, stats,
+                         journey, education, projects, portfolioSlots,
+                         twinStarters, nav
   lib/twin.ts            Twin + role-fit system prompts from site.ts; TWIN_MODELS
   lib/openrouter.ts      streamCompletion(): shared OpenRouter SSE proxy
   lib/stream.ts          streamTwin(): client-side SSE reader
@@ -80,6 +86,8 @@ Root-level `Jack Etzion 2025 v23p.pdf` and `Profile.pdf` are source documents
   `layout.tsx` applies it before paint. Use the token utilities (`bg-bg`,
   `bg-bg-2`, `text-ink`, `text-muted`, `text-faint`, `border-line`,
   `text-accent`, `text-brass`) and the `light:` variant, not raw colors.
+  Dark tokens are tuned for contrast on `--bg`: `muted` ~8:1, `faint` ~5:1 (keep
+  >= 4.5:1). `src/lib/og.tsx` hard-codes the dark palette; keep it in sync.
 - **Project pages**: `params` is awaited inside `<Suspense>` (Cache Components
   requirement). Unknown slugs render the not-found page with status 200 (accepted
   trade-off).
@@ -99,4 +107,4 @@ Root-level `Jack Etzion 2025 v23p.pdf` and `Profile.pdf` are source documents
 - `bugs.md`: latest test run, known limitations, fixed issues. Update it after
   verification passes.
 - `tutorial.md`: beginner walkthrough of the codebase.
-- `README.md`: still the create-next-app default.
+- `README.md`: short run and edit instructions.
