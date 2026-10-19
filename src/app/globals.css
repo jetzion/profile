@@ -126,6 +126,23 @@ body {
   }
 }
 
+@media print {
+  :root,
+  [data-theme] {
+    --bg: #fff;
+    --bg-2: #fff;
+    --ink: #16150f;
+    --muted: #4a463d;
+    --faint: #6b665a;
+    --line: rgba(22, 21, 15, 0.18);
+    --line-strong: rgba(22, 21, 15, 0.3);
+    --accent: #4a6600;
+    --brass: #8a6a35;
+    color-scheme: light;
+    print-color-adjust: exact;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;

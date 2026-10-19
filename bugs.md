@@ -1,21 +1,30 @@
 # Bugs
 
-Test run: 2026-10-18. Lint, type check, production build, route checks, chat API
-checks, and browser checks (Playwright + Chrome) against dev and production builds.
+Test run: 2026-10-19. Lint, type check, production build, route checks, chat and
+fit API checks, and browser checks (Playwright + Chromium) against the production build.
 
 ## Open
 
 None.
 
-## Known limitation
+## Known limitations
 
-The Twin now uses the free model `nvidia/nemotron-3-super-120b-a12b:free`, because
-the OpenRouter account has $0 credits (`total_credits: 0`, free tier), and every
-paid-model request returned 402. Free models are capped at 50 requests per day
-(shared by all visitors) and can be rate-limited upstream. To go back to a paid
-model, add credits and set `TWIN_MODEL` in `src/lib/twin.ts`.
+- The Twin runs on `anthropic/claude-haiku-5.5` (about $0.0007 per chat, $0.002 per
+  fit analysis) with the free Nemotron model as OpenRouter fallback. The account had
+  $9.80 credit on 2026-10-19. Fallback routing could not be forced in a test, since
+  OpenRouter rejects invalid model IDs before routing.
+- `next dev` sometimes serves stale modules or CSS after edits (seen with
+  `src/lib/twin.ts` and `globals.css`). Restart the dev server, or verify on
+  `next build && next start`.
+- `site.url` (`https://etzion.us`) is assumed; it drives canonical OG URLs and the sitemap.
 
 ## Fixed
+
+- **Role-fit answers were cut off.** Haiku's hidden reasoning counted against
+  `max_tokens` (1288 of 2048), so `finish_reason` was `length`. `/api/fit` now
+  allows 4096. Chat replies use no reasoning tokens and finish normally at 1024.
+- **Printed fit report was washed out and had no bullets.** Print tokens now set dark
+  ink on white, and `print-color-adjust: exact` keeps the accent bullets.
 
 0. **Chat did not respond (402, no credits).** Switched `TWIN_MODEL` to the free
    Nemotron model. Retested: the API streams replies, and in the browser the

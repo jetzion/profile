@@ -5,6 +5,7 @@ import { portfolioSlots, projects, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Portfolio",
+  robots: { index: false },
 };
 
 export default function PortfolioPage() {

@@ -1,6 +1,10 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Markdown } from "@/components/Markdown";
+import { twinStarters } from "@/content/site";
+import { streamTwin } from "@/lib/stream";
 
 type Role = "user" | "assistant";
 
@@ -9,33 +13,14 @@ type ChatTurn = {
   content: string;
 };
 
-const starters = [
-  "What are you working on now?",
-  "Walk me through your career arc.",
-  "What results did you drive at Forta?",
-  "How do you approach product discovery?",
-];
-
-function extractDelta(payload: unknown): string {
-  if (!payload || typeof payload !== "object") return "";
-  const choices = "choices" in payload ? payload.choices : null;
-  if (!Array.isArray(choices) || !choices[0] || typeof choices[0] !== "object") {
-    return "";
-  }
-  const delta = "delta" in choices[0] ? choices[0].delta : null;
-  if (!delta || typeof delta !== "object") return "";
-  if ("content" in delta && typeof delta.content === "string") {
-    return delta.content;
-  }
-  return "";
-}
-
 export function TwinChat() {
   const [messages, setMessages] = useState<ChatTurn[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const initialQuestion = useSearchParams().get("q");
+  const askedInitial = useRef(false);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -53,55 +38,13 @@ export function TwinChat() {
     setMessages([...nextMessages, { role: "assistant", content: "" }]);
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: nextMessages }),
+      await streamTwin("/api/chat", { messages: nextMessages }, (text) => {
+        setMessages((current) => {
+          const copy = [...current];
+          copy[copy.length - 1] = { role: "assistant", content: text };
+          return copy;
+        });
       });
-
-      if (!response.ok) {
-        const payload = (await response.json().catch(() => null)) as
-          | { error?: string }
-          | null;
-        throw new Error(payload?.error ?? "The Twin could not reply.");
-      }
-
-      const reader = response.body?.getReader();
-      if (!reader) throw new Error("No response stream.");
-
-      const decoder = new TextDecoder();
-      let buffer = "";
-      let assembled = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const chunks = buffer.split("\n");
-        buffer = chunks.pop() ?? "";
-
-        for (const line of chunks) {
-          const trimmed = line.trim();
-          if (!trimmed.startsWith("data:")) continue;
-          const data = trimmed.slice(5).trim();
-          if (!data || data === "[DONE]") continue;
-          try {
-            assembled += extractDelta(JSON.parse(data));
-            const snapshot = assembled;
-            setMessages((current) => {
-              const copy = [...current];
-              copy[copy.length - 1] = { role: "assistant", content: snapshot };
-              return copy;
-            });
-          } catch {
-            // Ignore malformed SSE leftovers.
-          }
-        }
-      }
-
-      if (!assembled.trim()) {
-        throw new Error("The Twin returned an empty reply.");
-      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
       setMessages((current) => {
@@ -114,6 +57,13 @@ export function TwinChat() {
       setBusy(false);
     }
   }
+
+  useEffect(() => {
+    if (!initialQuestion || askedInitial.current) return;
+    askedInitial.current = true;
+    window.history.replaceState(null, "", "/twin");
+    void send(initialQuestion);
+  });
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -131,7 +81,7 @@ export function TwinChat() {
               roles, results, and how the work actually got done.
             </p>
             <div className="mt-8 flex flex-wrap gap-2">
-              {starters.map((prompt) => (
+              {twinStarters.map((prompt) => (
                 <button
                   key={prompt}
                   type="button"
@@ -152,15 +102,15 @@ export function TwinChat() {
               <p className="eyebrow mb-2">
                 {message.role === "user" ? "You" : "Digital Twin"}
               </p>
-              <p
-                className={`whitespace-pre-wrap text-sm leading-relaxed md:text-base ${
-                  message.role === "user"
-                    ? "border border-line bg-bg px-4 py-3"
-                    : "text-ink"
-                }`}
-              >
-                {message.content || (busy && i === messages.length - 1 ? "Thinking…" : "")}
-              </p>
+              {message.role === "user" ? (
+                <p className="whitespace-pre-wrap border border-line bg-bg px-4 py-3 text-sm leading-relaxed md:text-base">
+                  {message.content}
+                </p>
+              ) : message.content ? (
+                <Markdown>{message.content}</Markdown>
+              ) : (
+                <p className="text-sm text-muted">{busy && i === messages.length - 1 ? "Thinking…" : ""}</p>
+              )}
             </div>
           ))
         )}
