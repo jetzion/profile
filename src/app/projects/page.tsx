@@ -12,9 +12,7 @@ export default function ProjectsPage() {
     <div className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
       <SectionHeading index="03" title="Projects" kicker="Selected" />
       <p className="mb-16 max-w-2xl text-lg text-muted">
-        Work that moved a metric, a market, or a clinical workflow. Deeper
-        artifacts will land in the portfolio as they are cleared for public
-        view.
+        Work that moved a metric, a market, or a clinical workflow.
       </p>
       <div className="flex flex-col">
         {projects.map((project, i) => (

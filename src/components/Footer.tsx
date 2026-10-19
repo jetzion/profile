@@ -3,7 +3,7 @@ import { nav, site } from "@/content/site";
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-line">
+    <footer className="print:hidden mt-auto border-t border-line">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 md:grid-cols-3 md:px-8">
         <div>
           <p className="font-display text-2xl font-semibold">{site.name}</p>

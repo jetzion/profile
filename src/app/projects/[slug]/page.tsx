@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
-  return { title: project?.title ?? "Project" };
+  return { title: project?.title ?? "Project", description: project?.blurb };
 }
 
 export default function ProjectPage({ params }: Props) {
@@ -75,14 +75,18 @@ async function ProjectDetail({ params }: Props) {
           {project.body.map((p) => (
             <p key={p}>{p}</p>
           ))}
-          <p className="border border-dashed border-line-strong bg-bg-2 p-6 text-sm text-ink">
-            Extended case materials — research, roadmaps, and interface work —
-            will be published in the{" "}
-            <Link href="/portfolio" className="link-line text-accent">
-              portfolio
-            </Link>{" "}
-            as they are cleared.
-          </p>
+          <Link
+            href={`/twin?q=${encodeURIComponent(`Tell me more about ${project.title} at ${project.client}. What were the hardest decisions?`)}`}
+            className="group flex items-center justify-between gap-6 border border-line-strong bg-bg-2 p-6 text-sm text-ink transition-colors hover:border-accent"
+          >
+            <span>
+              <span className="eyebrow block">Go deeper</span>
+              <span className="mt-2 block">
+                Ask my Digital Twin about the decisions and trade-offs behind this work.
+              </span>
+            </span>
+            <span className="text-accent transition-transform group-hover:translate-x-1">→</span>
+          </Link>
         </div>
       </div>
 

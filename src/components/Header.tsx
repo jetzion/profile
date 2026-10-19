@@ -11,7 +11,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur-md">
+    <header className="print:hidden sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur-md">
       <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto] items-center px-5 py-4 lg:grid-cols-[1fr_auto_1fr] lg:px-8">
         <Link href="/" className="flex items-baseline gap-3">
           <span className="font-display text-lg font-semibold tracking-tight">

@@ -1,6 +1,7 @@
 export const site = {
   name: "Jack Etzion",
   initials: "JE",
+  url: "https://etzion.us",
   location: "Boynton Beach, Florida",
   email: "jack@etzion.us",
   linkedin: "https://www.linkedin.com/in/jacketzion",
@@ -332,11 +333,18 @@ export const portfolioSlots = [
   },
 ];
 
+export const twinStarters = [
+  "What are you working on now?",
+  "Walk me through your career arc.",
+  "What results did you drive at Forta?",
+  "How do you approach product discovery?",
+];
+
 export const nav = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/journey", label: "Journey" },
   { href: "/projects", label: "Projects" },
-  { href: "/portfolio", label: "Portfolio" },
   { href: "/twin", label: "Twin" },
+  { href: "/fit", label: "Role fit" },
 ];

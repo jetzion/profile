@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeroAsk } from "@/components/HeroAsk";
 import { SectionHeading } from "@/components/SectionHeading";
 import { about, projects, site, stats } from "@/content/site";
 
@@ -26,7 +27,8 @@ export default function Home() {
               {site.headline} {site.subhead}
             </p>
           </div>
-          <div className="mt-10 flex flex-wrap gap-3">
+          <HeroAsk />
+          <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/projects"
               className="bg-accent px-6 py-3 text-sm font-medium tracking-wide text-bg transition-transform hover:-translate-y-0.5"
@@ -156,8 +158,8 @@ export default function Home() {
             <Link href="/twin" className="text-muted hover:text-ink">
               Ask the Digital Twin
             </Link>
-            <Link href="/portfolio" className="text-muted hover:text-ink">
-              Portfolio archive (in progress)
+            <Link href="/fit" className="text-muted hover:text-ink">
+              Does Jack fit your role?
             </Link>
           </div>
         </div>

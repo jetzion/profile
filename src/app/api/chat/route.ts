@@ -1,4 +1,5 @@
-import { buildTwinSystemPrompt, TWIN_MODEL } from "@/lib/twin";
+import { streamCompletion } from "@/lib/openrouter";
+import { buildTwinSystemPrompt } from "@/lib/twin";
 
 type ChatTurn = {
   role: "user" | "assistant";
@@ -31,14 +32,6 @@ function sanitizeMessages(input: unknown): ChatTurn[] {
 }
 
 export async function POST(request: Request) {
-  const apiKey = process.env.OPENROUTER_API_KEY;
-  if (!apiKey) {
-    return Response.json(
-      { error: "The Digital Twin is not configured." },
-      { status: 500 },
-    );
-  }
-
   let body: unknown;
   try {
     body = await request.json();
@@ -60,41 +53,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const upstream = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "HTTP-Referer": "http://localhost:3000",
-      "X-Title": "Jack Etzion Digital Twin",
-    },
-    body: JSON.stringify({
-      model: TWIN_MODEL,
-      temperature: 0.4,
-      max_tokens: 1024,
-      stream: true,
-      reasoning: { effort: "low", exclude: true },
-      messages: [
-        { role: "system", content: buildTwinSystemPrompt() },
-        ...messages,
-      ],
-    }),
-  });
-
-  if (!upstream.ok || !upstream.body) {
-    const detail = await upstream.text().catch(() => "");
-    console.error("OpenRouter error", upstream.status, detail.slice(0, 500));
-    return Response.json(
-      { error: "The Digital Twin could not be reached. Try again in a moment." },
-      { status: 502 },
-    );
-  }
-
-  return new Response(upstream.body, {
-    headers: {
-      "Content-Type": "text/event-stream; charset=utf-8",
-      "Cache-Control": "no-cache, no-transform",
-      Connection: "keep-alive",
-    },
-  });
+  return streamCompletion(
+    [{ role: "system", content: buildTwinSystemPrompt() }, ...messages],
+    1024,
+  );
 }
