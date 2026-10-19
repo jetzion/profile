@@ -19,7 +19,7 @@ export default function Home() {
           <div className="mt-8 flex items-center gap-5 md:gap-10">
             <div className="w-24 shrink-0 overflow-hidden border border-b-[3px] border-line border-b-brass bg-bg-2 pt-3 md:w-40 lg:w-48 lg:pt-5">
               <Image
-                src="/Jack.png"
+                src={site.photo}
                 alt={`Portrait of ${site.name}`}
                 width={746}
                 height={983}

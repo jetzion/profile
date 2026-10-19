@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { SectionHeading } from "@/components/SectionHeading";
 import { about, education, site } from "@/content/site";
 
@@ -14,7 +15,14 @@ export default function AboutPage() {
       <div className="grid gap-12 md:grid-cols-12">
         <div className="md:col-span-4">
           <div className="border border-line bg-bg-2 p-8">
-            <p className="font-display text-7xl font-semibold text-accent">{site.initials}</p>
+            <Image
+              src={site.photo}
+              alt={`Portrait of ${site.name}`}
+              width={746}
+              height={983}
+              sizes="160px"
+              className="w-40 border border-b-[3px] border-line border-b-brass bg-bg pt-3"
+            />
             <p className="mt-8 text-sm text-muted">{site.location}</p>
             <p className="mt-1 text-sm">{site.title}</p>
             <div className="mt-8 space-y-1 text-sm">

@@ -1,18 +1,19 @@
 export const site = {
   name: "Jack Etzion",
   initials: "JE",
-  url: "https://etzion.us",
+  url: "https://profile-je.vercel.app",
   location: "Boynton Beach, Florida",
   email: "jack@etzion.us",
   linkedin: "https://www.linkedin.com/in/jacketzion",
   resumeHref: "/resume",
   resumeFile: "/Jack-Etzion-v25p.pdf",
+  photo: "/Jack.png",
   title: "Product Leader",
   kicker: "AI / ML · Healthcare · SaaS · Digital Transformation",
   headline:
     "I build products at the intersection of clinical reality, enterprise systems, and machine intelligence.",
   subhead:
-    "Twenty-plus years bridging technology, business, and customers — from Fortune 500 imaging and IoT to AI-driven healthcare platforms that clinicians actually use.",
+    "10+ years of product leadership bridging technology, business, and customers — from Fortune 500 imaging and IoT to AI-driven healthcare platforms that clinicians actually use.",
 };
 
 export const about = {
@@ -72,7 +73,7 @@ export const about = {
 };
 
 export const stats = [
-  { value: "20+", label: "Years shipping software & hardware products" },
+  { value: "10+", label: "Years of digital product leadership" },
   { value: "$200M+", label: "Net-new business originated across roles" },
   { value: "2×", label: "Reduction in clinical charting time at Forta" },
   { value: "40→75%", label: "U.S. imaging market share gained at Fujifilm" },
@@ -310,26 +311,37 @@ export const projects = [
   },
 ];
 
-export const portfolioSlots = [
+export const caseStudies = [
   {
-    code: "01",
-    title: "Healthcare systems",
-    note: "EMR, LIMS, and clinical workflow case studies — reserved for this archive.",
+    slug: "sepsis-ai",
+    client: "Dascena",
+    title: "Machine learning for early sepsis detection",
+    body: `In the early days of ML, we developed InSight at Dascena, a cutting-edge machine learning algorithm engineered to predict and detect the onset of sepsis, severe sepsis, and septic shock using electronic health record (EHR) data. At its core, InSight analyzes six routine vital signs (heart rate, respiratory rate, body temperature, systolic blood pressure, diastolic blood pressure, and oxygen saturation) along with patient age and how these values change over time. The algorithm forecasts severe sepsis and septic shock up to four hours before clinical onset, and extended retrospective models can estimate risk up to 48 hours in advance. InSight’s performance has been validated with strong results, achieving AUROC (Area Under the Receiver Operating Characteristic) scores of 0.92 for sepsis detection, 0.87 for severe sepsis, and 0.96 for predicting septic shock.
+
+Multiple multicenter, real-world clinical studies have shown InSight's significant impact on patient care across community and academic hospitals. InSight reduced in-hospital sepsis-related mortality by approximately 39.5% to 40%. Additionally, it decreased the average hospital length of stay by roughly 32.3% and lowered 30-day hospital readmission rates by about 22.7%. These outcomes highlight InSight’s effectiveness in improving both clinical results and healthcare efficiency.`,
   },
   {
-    code: "02",
-    title: "Applied AI",
-    note: "Alerting, agents, and automation work that survived contact with real users.",
-  },
-  {
-    code: "03",
-    title: "Enterprise platforms",
-    note: "IoT and digital transformation programs with Fortune 500 operators.",
-  },
-  {
-    code: "04",
-    title: "Selected artifacts",
-    note: "Roadmaps, research, and product narrative — added as they are cleared for public view.",
+    slug: "forta-emr-ai",
+    client: "Forta Health",
+    title: "Building a custom EMR system",
+    body: `At Forta Health, we faced the challenge of relying on a third-party electronic medical record (EMR) system that was too complex and expensive for our startup's needs. Recognizing this, we set out to build a tailored EMR solution from the ground up.
+
+As an early-stage company moving fast, we skipped essential product design steps. About six weeks into development, I saw the risks: the product didn’t fit our business model, and foundational design flaws could slow us down or cause bigger issues later. I raised these concerns with the CTO, proposed a new design, and outlined the timeline and the resources needed to rebuild it the right way.
+
+We shifted direction, started over, rebuilt, and invested in a new foundation. Five years later, that foundation still supports all core operations. The EMR solution was built for both desktop and mobile, enabling clinicians to:
+
+* Take detailed session notes
+* Track patient progress
+* Maintain comprehensive treatment records
+
+We integrated AI features to recommend treatments, generate initial medical narratives, and even create a virtual biller agent that uses voice calling to check claim status. Over the years, we expanded functionality to include:
+
+* Back-office reporting
+* Claims creation and submission
+* Quality assurance workflows
+* Scheduling and onboarding for new clients
+
+Today, Forta Health’s EMR is a full end-to-end platform, tailored to our needs and scalable for growth. This experience taught me the importance of balancing speed with thoughtful design, and the value of stepping back to correct course when needed. Strategic product leadership isn’t just about moving fast—it’s knowing when to pause, challenge assumptions, and build for long-term success.`,
   },
 ];
 
@@ -345,6 +357,7 @@ export const nav = [
   { href: "/about", label: "About" },
   { href: "/journey", label: "Journey" },
   { href: "/projects", label: "Projects" },
+  { href: "/portfolio", label: "Portfolio" },
   { href: "/twin", label: "Twin" },
   { href: "/fit", label: "Role fit" },
 ];

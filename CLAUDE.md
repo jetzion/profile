@@ -13,6 +13,7 @@ Twin" chat that answers questions about his career in the first person.
 - `pdfjs-dist` for the in-page resume viewer, `react-markdown` for Twin replies
 - OpenRouter chat completions API for the Digital Twin and role-fit check
 - `next/og` `ImageResponse` for share cards and icons
+- `@vercel/analytics` (`<Analytics />` in `layout.tsx`); enable Web Analytics in the Vercel dashboard
 - npm (`package-lock.json`); ESLint 9 flat config with `eslint-config-next`
 
 Next.js 16 differs from older versions. Check `node_modules/next/dist/docs/`
@@ -33,20 +34,34 @@ npx tsc --noEmit
 does not show up, restart the dev server. For final verification use
 `npm run build && npx next start -p 3001`.
 
+## Deploy
+
+- Vercel project `profile` (team `jetzion`), linked via `.vercel/repo.json`.
+  Production: https://profile-je.vercel.app (`etzion.us` is not on Vercel yet).
+- Deploy with `vercel --prod --scope jetzion`, then verify `/`, `/api/chat`,
+  and `/opengraph-image` on the production URL.
+- Vercel needs `OPENROUTER_API_KEY` under that exact name (Production and
+  Preview); a missing or misnamed key makes `/api/chat` return 500.
+- Per-deployment URLs (`profile-<hash>-jetzion.vercel.app`) sit behind Vercel
+  Authentication; only the production alias is public.
+
 ## Layout
 
 ```
 src/
   content/site.ts        Single source of truth for all copy and data:
-                         site (incl. site.url for OG/sitemap), about, stats,
-                         journey, education, projects, portfolioSlots,
+                         site (incl. site.url for OG/sitemap, resumeFile,
+                         photo), about, stats,
+                         journey, education, projects, caseStudies,
                          twinStarters, nav
   lib/twin.ts            Twin + role-fit system prompts from site.ts; TWIN_MODELS
   lib/openrouter.ts      streamCompletion(): shared OpenRouter SSE proxy
   lib/stream.ts          streamTwin(): client-side SSE reader
-  lib/og.tsx             Share card + "JE" monogram renderers (fonts in src/assets/fonts)
+  lib/og.tsx             Share card (optional portrait) + "JE" monogram renderers
+                         (fonts in src/assets/fonts, photo from public/)
   app/
-    layout.tsx           Fonts (Geist, Geist Mono, Syne), Header/Footer, theme init script
+    layout.tsx           Fonts (Geist, Geist Mono, Syne), Header/Footer, theme init
+                         script, <Analytics />
     globals.css          Color tokens, light theme, Tailwind @theme, utility classes
     page.tsx             Home
     about/ journey/ projects/ projects/[slug]/ portfolio/ resume/ twin/
@@ -58,12 +73,14 @@ src/
   components/            Header, Footer, ThemeToggle, SectionHeading, Markdown,
                          ResumeViewer (client, pdf.js), TwinChat, HeroAsk, FitCheck
 public/
-  Jack-Etzion-v25p.pdf   Served inline (header set in next.config.ts)
+  Jack-Etzion-v25p.pdf   Current resume, served inline (header set in next.config.ts)
+  Jack.png               Transparent-background portrait (site.photo)
   pdf.worker.min.mjs     Vendored pdf.js worker (ignored by ESLint)
 ```
 
 Root-level `Jack Etzion 2025 v23p.pdf` and `Profile.pdf` are source documents
-(resume, LinkedIn export) that `site.ts` content was derived from.
+(resume, LinkedIn export) that `site.ts` content was derived from. The live
+resume is v25p (adds the website, "10+ years"); site copy matches it.
 
 ## Key behavior
 
@@ -79,8 +96,19 @@ Root-level `Jack Etzion 2025 v23p.pdf` and `Profile.pdf` are source documents
   `/twin?q=...`, which auto-asks (TwinChat sits in `<Suspense>` for `useSearchParams`).
 - **Role fit**: `/fit` streams a fixed-section Markdown report (`max_tokens: 4096`,
   since reasoning tokens count). Print CSS in `globals.css` makes it a clean PDF.
-- **Portfolio**: hidden from nav, `noindex`, disallowed in robots until real case
-  studies exist.
+- **Resume**: `site.resumeFile` drives the `/resume` viewer and download link
+  (downloads as `Jack-Etzion-Resume.pdf`). To replace it, add the new PDF with
+  a URL-safe name, then update `resumeFile` and the `source` in `next.config.ts`.
+- **Portrait** (`site.photo`, rendered with `next/image`): home hero (left of
+  the name, square frame with a brass bottom border), About profile card, Twin
+  reply avatar (zoomed round crop), and the home share card (`photo: true` in
+  `src/app/opengraph-image.tsx`; project and fit cards stay text-only).
+- **Share cards**: `og.tsx` reads fonts and the photo with top-level `await` at
+  module scope, as the Next.js docs advise. Awaiting file reads inside the
+  render function made prerendered cards dynamic.
+- **Portfolio**: `/portfolio` renders `caseStudies` from `site.ts` (Markdown
+  bodies, each linking to its project brief). In the nav and sitemap; the Twin
+  prompt includes the case studies. Source text: root-level `case_study.md`.
 - **Theming**: dark is default. `data-theme` on `<html>` switches to light;
   `ThemeToggle` persists it in `localStorage`, and an inline script in
   `layout.tsx` applies it before paint. Use the token utilities (`bg-bg`,
