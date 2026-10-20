@@ -19,10 +19,10 @@ export default function Home() {
           <div className="mt-8 flex items-center gap-5 md:gap-10">
             <div className="w-24 shrink-0 overflow-hidden border border-b-[3px] border-line border-b-brass bg-bg-2 pt-3 md:w-40 lg:w-48 lg:pt-5">
               <Image
-                src="/Jack.png"
+                src={site.photo}
                 alt={`Portrait of ${site.name}`}
-                width={746}
-                height={983}
+                width={500}
+                height={659}
                 sizes="(min-width: 1024px) 192px, (min-width: 768px) 160px, 96px"
                 fetchPriority="high"
                 className="w-full"

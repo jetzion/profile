@@ -1,5 +1,6 @@
 import {
   about,
+  caseStudies,
   education,
   journey,
   projects,
@@ -58,7 +59,10 @@ CAREER
 ${roles}
 
 PROJECTS
-${work}`;
+${work}
+
+CASE STUDIES
+${caseStudies.map((c) => `${c.client}: ${c.title}\n${c.body}`).join("\n\n")}`;
 }
 
 /** Primary model first; OpenRouter falls back down the list on errors or rate limits. */

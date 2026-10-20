@@ -1,9 +1,10 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Markdown } from "@/components/Markdown";
-import { twinStarters } from "@/content/site";
+import { site, twinStarters } from "@/content/site";
 import { streamTwin } from "@/lib/stream";
 
 type Role = "user" | "assistant";
@@ -99,9 +100,22 @@ export function TwinChat() {
               key={`${message.role}-${i}`}
               className={message.role === "user" ? "ml-auto max-w-xl" : "max-w-2xl"}
             >
-              <p className="eyebrow mb-2">
-                {message.role === "user" ? "You" : "Digital Twin"}
-              </p>
+              {message.role === "user" ? (
+                <p className="eyebrow mb-2">You</p>
+              ) : (
+                <div className="mb-2 flex items-center gap-2">
+                  <div className="size-8 overflow-hidden rounded-full border border-line bg-bg">
+                    <Image
+                      src={site.photo}
+                      alt=""
+                      width={96}
+                      height={96}
+                      className="size-full origin-[36%_36%] scale-[1.35] object-cover object-top"
+                    />
+                  </div>
+                  <p className="eyebrow">Digital Twin</p>
+                </div>
+              )}
               {message.role === "user" ? (
                 <p className="whitespace-pre-wrap border border-line bg-bg px-4 py-3 text-sm leading-relaxed md:text-base">
                   {message.content}

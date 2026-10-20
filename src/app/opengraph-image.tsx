@@ -6,5 +6,5 @@ export const size = ogSize;
 export const contentType = "image/png";
 
 export default function Image() {
-  return renderOg({ eyebrow: site.kicker, title: site.name, subtitle: site.headline });
+  return renderOg({ eyebrow: site.kicker, title: site.name, subtitle: site.headline, photo: true });
 }

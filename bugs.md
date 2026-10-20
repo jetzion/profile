@@ -16,7 +16,8 @@ None.
 - `next dev` sometimes serves stale modules or CSS after edits (seen with
   `src/lib/twin.ts` and `globals.css`). Restart the dev server, or verify on
   `next build && next start`.
-- `site.url` (`https://etzion.us`) is assumed; it drives canonical OG URLs and the sitemap.
+- `site.url` is `https://profile-je.vercel.app` until `etzion.us` points at Vercel; it
+  drives canonical OG URLs and the sitemap.
 
 ## Fixed
 

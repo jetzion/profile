@@ -5,22 +5,26 @@ import { site } from "@/content/site";
 
 export const ogSize = { width: 1200, height: 630 };
 
-const fonts = Promise.all([
+const [syne, geist] = await Promise.all([
   readFile(join(process.cwd(), "src/assets/fonts/Syne-Bold.ttf")),
   readFile(join(process.cwd(), "src/assets/fonts/Geist-Regular.ttf")),
 ]);
 
-/** Branded 1200x630 share card in the site's dark palette. */
+const photoDataUrl = `data:image/png;base64,${await readFile(join(process.cwd(), "public", site.photo), "base64")}`;
+
+/** Branded 1200x630 share card in the site's dark palette, optionally with the portrait. */
 export async function renderOg({
   eyebrow,
   title,
   subtitle,
+  photo = false,
 }: {
   eyebrow: string;
   title: string;
   subtitle: string;
+  photo?: boolean;
 }) {
-  const [syne, geist] = await fonts;
+  const photoSrc = photo ? photoDataUrl : null;
   return new ImageResponse(
     (
       <div
@@ -45,20 +49,36 @@ export async function renderOg({
             {eyebrow}
           </div>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-          <div
-            style={{
-              fontFamily: "Syne",
-              fontSize: title.length > 28 ? 76 : 112,
-              lineHeight: 0.95,
-              letterSpacing: -4,
-              maxWidth: 1000,
-            }}
-          >
-            {title}
-          </div>
-          <div style={{ fontSize: 30, lineHeight: 1.35, color: "#aaa497", maxWidth: 940 }}>
-            {subtitle}
+        <div style={{ display: "flex", alignItems: "center", gap: 48 }}>
+          {photoSrc ? (
+            <div
+              style={{
+                display: "flex",
+                paddingTop: 12,
+                background: "#10100e",
+                border: "1px solid rgba(244,240,230,0.18)",
+                borderBottom: "4px solid #c4a574",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={photoSrc} width={210} height={277} alt="" />
+            </div>
+          ) : null}
+          <div style={{ display: "flex", flexDirection: "column", gap: 28, flex: 1 }}>
+            <div
+              style={{
+                fontFamily: "Syne",
+                fontSize: title.length > 28 ? 76 : 112,
+                lineHeight: 0.95,
+                letterSpacing: -4,
+                maxWidth: 1000,
+              }}
+            >
+              {title}
+            </div>
+            <div style={{ fontSize: 30, lineHeight: 1.35, color: "#aaa497", maxWidth: 940 }}>
+              {subtitle}
+            </div>
           </div>
         </div>
         <div
@@ -89,7 +109,6 @@ export async function renderOg({
 
 /** Square "JE" monogram used for the favicon and Apple touch icon. */
 export async function renderMonogram(px: number) {
-  const [syne] = await fonts;
   return new ImageResponse(
     (
       <div

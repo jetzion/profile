@@ -1,3 +1,4 @@
+import { site } from "@/content/site";
 import { TWIN_MODELS } from "@/lib/twin";
 
 export type ChatMessage = {
@@ -20,7 +21,7 @@ export async function streamCompletion(messages: ChatMessage[], maxTokens: numbe
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
-      "HTTP-Referer": "http://localhost:3000",
+      "HTTP-Referer": site.url,
       "X-Title": "Jack Etzion Digital Twin",
     },
     body: JSON.stringify({
