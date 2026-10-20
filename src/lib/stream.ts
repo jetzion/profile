@@ -24,6 +24,10 @@ export async function streamTwin(
     body: JSON.stringify(body),
   });
 
+  if (response.status === 429) {
+    throw new Error("You're sending messages too quickly. Wait a minute and try again.");
+  }
+
   if (!response.ok) {
     const payload = (await response.json().catch(() => null)) as
       | { error?: string }
