@@ -18,8 +18,8 @@ export default function AboutPage() {
             <Image
               src={site.photo}
               alt={`Portrait of ${site.name}`}
-              width={746}
-              height={983}
+              width={500}
+              height={659}
               sizes="160px"
               className="w-40 border border-b-[3px] border-line border-b-brass bg-bg pt-3"
             />

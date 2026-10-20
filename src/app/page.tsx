@@ -21,8 +21,8 @@ export default function Home() {
               <Image
                 src={site.photo}
                 alt={`Portrait of ${site.name}`}
-                width={746}
-                height={983}
+                width={500}
+                height={659}
                 sizes="(min-width: 1024px) 192px, (min-width: 768px) 160px, 96px"
                 fetchPriority="high"
                 className="w-full"
