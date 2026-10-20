@@ -42,6 +42,9 @@ does not show up, restart the dev server. For final verification use
   and `/opengraph-image` on the production URL.
 - Vercel needs `OPENROUTER_API_KEY` under that exact name (Production and
   Preview); a missing or misnamed key makes `/api/chat` return 500.
+- Vercel Firewall custom rule "Rate limit API" (dashboard only, not in code):
+  `/api/` paths, 20 requests per 60s per IP, then 429. `streamTwin` shows a
+  readable message on 429. Check with `vercel firewall rules list --scope jetzion`.
 - Per-deployment URLs (`profile-<hash>-jetzion.vercel.app`) sit behind Vercel
   Authentication; only the production alias is public.
 
